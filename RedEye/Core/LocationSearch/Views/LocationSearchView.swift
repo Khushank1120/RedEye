@@ -26,26 +26,28 @@ struct LocationSearchView: View {
                         .frame(width: 1, height: 24)
                     
                     Rectangle()
-                        .fill(.black)
+                        .fill(.red)
                         .frame(width: 6, height: 6)
                     
                 }
                 VStack{
-                    TextField("  Current Location", text: $startLocationText)
+                    TextField("Current Location", text: $startLocationText)
+                        .padding(.leading, 10)
                         .frame(height: 32)
                         .background(Color(
-                            .systemGroupedBackground))
+                            .systemGray5))
                         .padding(.trailing)
                     
-                    TextField("  Where To?", text: $viewModel.queryFragment)
+                    TextField("Where To?", text: $viewModel.queryFragment)
+                        .padding(.leading, 10)
                         .frame(height: 32)
                         .background(Color(
-                            .systemGray4))
+                            .systemGray5))
                         .padding(.trailing)
                 }
             }
             .padding(.horizontal)
-            .padding(.top, 74)
+            .padding(.top, 64)
             
             Divider()
                 .padding(.vertical)
@@ -73,4 +75,5 @@ struct LocationSearchView: View {
 
 #Preview {
     LocationSearchView(showLocationSearchView: .constant(false))
+        .environmentObject(LocationSearchViewModel())
 }

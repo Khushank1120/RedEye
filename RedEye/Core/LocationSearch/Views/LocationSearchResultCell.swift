@@ -19,7 +19,7 @@ struct LocationSearchResultCell: View {
                 .accentColor(.white)
                 .frame(width: 45, height: 45)
             
-            VStack(alignment: .leading, spacing: 4){
+            VStack(alignment: .leading, spacing: 5){
                 Text(title)
                     .font(.body)
                 
@@ -38,4 +38,5 @@ struct LocationSearchResultCell: View {
 
 #Preview {
     LocationSearchResultCell(title: "Starbucks", subtitle: "123, Main St")
+        .environmentObject(LocationSearchViewModel())
 }

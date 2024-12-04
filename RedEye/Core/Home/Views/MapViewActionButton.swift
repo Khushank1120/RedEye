@@ -15,13 +15,13 @@ struct MapViewActionButton: View {
             showLocationSearchView.toggle()
             }
         } label: {
-            Image(systemName: showLocationSearchView ? "arrow.left" : "line.3.horizontal")
+            Image(systemName: showLocationSearchView ? "chevron.left" : "line.3.horizontal")
                 .font(.title2)
                 .foregroundColor(.black)
                 .padding()
                 .background(.white)
                 .clipShape(Circle())
-                .shadow(color: .black, radius: 3)
+                .shadow(color: .black, radius: 2)
         }
         .frame(maxWidth: .infinity, alignment: .leading)
     }
