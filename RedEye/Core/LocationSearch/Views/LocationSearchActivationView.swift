@@ -12,8 +12,8 @@ struct LocationSearchActivationView: View {
         HStack{
             
             Rectangle()
-                .fill(Color.black)
-                .frame(width: 8, height: 8)
+                .fill(Color.red)
+                .frame(width: 10, height: 10)
                 .padding(.horizontal)
             
             Text("Where to?")
