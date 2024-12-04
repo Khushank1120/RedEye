@@ -28,6 +28,7 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
         if let coordinate = locationViewModel.selectedLocationCoordinate {
 //            print("DEBUG: Selected coordinates \(coordinate)")
             context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
+            context.coordinator.configurePolyLine(withDestinationCoordinate: coordinate)
         }
 
     }
@@ -46,6 +47,7 @@ extension RedEyeMapViewRepresentable {
         // MARK: - Properties
         
         let parent: RedEyeMapViewRepresentable
+        var userLocationCoordinate: CLLocationCoordinate2D?
         
         // MARK: - Lifecycle
         
@@ -57,12 +59,20 @@ extension RedEyeMapViewRepresentable {
         // MARK: - MKMapViewDelegate
         
         func mapView(_ mapView: MKMapView, didUpdate userLocation: MKUserLocation) {
+            self.userLocationCoordinate = userLocation.coordinate
             let region = MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude),
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             )
             
             parent.mapView.setRegion(region, animated: true)
+        }
+        
+        func mapView(_ mapView: MKMapView, rendererFor overlay: any MKOverlay) -> MKOverlayRenderer {
+            let polyline = MKPolylineRenderer(overlay: overlay)
+            polyline.strokeColor = .systemBlue
+            polyline.lineWidth = 5
+            return polyline
         }
         
         // MARK: - Helpers
@@ -78,8 +88,15 @@ extension RedEyeMapViewRepresentable {
             parent.mapView.showAnnotations(parent.mapView.annotations, animated: true)
         }
         
+        func configurePolyLine(withDestinationCoordinate coordinate: CLLocationCoordinate2D){
+            guard let userLocationCoordinate = self.userLocationCoordinate else { return }
+            getDestinationRoute(from: userLocationCoordinate, to: coordinate) { route in
+                self.parent.mapView.addOverlay(route.polyline)
+            }
+        }
         
-        func getDestinationRoute(from userLocation: CLLocationCoordinate2D, to destination: CLLocationCoordinate2D, completion: @escaping(MKRoute) -> Void){
+        func getDestinationRoute(from userLocation: CLLocationCoordinate2D,
+                                 to destination: CLLocationCoordinate2D, completion: @escaping(MKRoute) -> Void){
             
             let userPlacemark = MKPlacemark(coordinate: userLocation)
             let destPlacemark = MKPlacemark(coordinate: destination)
