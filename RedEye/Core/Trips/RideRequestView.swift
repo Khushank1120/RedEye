@@ -96,8 +96,9 @@ struct RideRequestView: View {
 
                         }
                         .frame(width: 102, height: 140)
-                        .foregroundColor(type == selectedRideType ? .white : .black)
-                        .background(Color(type == selectedRideType ? .systemBlue : .systemGroupedBackground))
+                        .foregroundColor(type == selectedRideType ? .white : Color.theme.primaryTextColor)
+//                        .background(Color(type == selectedRideType ? .systemBlue : .systemGroupedBackground))
+                        .background(type == selectedRideType ? .cyan : Color.theme.secondaryBackgroundColor)
                         .scaleEffect(type == selectedRideType ? 1.19 : 1.0)
                         .cornerRadius(11)
                         .onTapGesture {
@@ -123,7 +124,7 @@ struct RideRequestView: View {
                     .cornerRadius(4)
                     .foregroundColor(.white)
                     .padding(.leading)
-                
+                                
                 Text("*** 1234")
                     .fontWeight(.bold)
                 
@@ -134,14 +135,13 @@ struct RideRequestView: View {
                     .padding()
             }
             .frame(height: 50)
-            .background(Color(.systemGroupedBackground))
+            .background(Color.theme.secondaryBackgroundColor)
             .cornerRadius(10)
             .padding(.horizontal)
             
             // request ride button
-            
+                 
             Button {
-                
             } label: {
                 Text("CONFIRM RIDE")
                     .fontWeight(.bold)
@@ -151,8 +151,8 @@ struct RideRequestView: View {
                     .foregroundColor(.white)
             }
         }
-        .padding(.bottom, 24)
-        .background(.white)
+        .padding(.bottom, 34)
+        .background(Color.theme.backgroundColor)
         .cornerRadius(12)
     }
 }

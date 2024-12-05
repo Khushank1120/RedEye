@@ -13,6 +13,7 @@ struct LocationSearchActivationView: View {
             
             Image(systemName: "magnifyingglass")
                 .frame(width: 10, height: 10)
+                .foregroundColor(Color(.black))
                 .padding(.horizontal, 20)
 
             Text("Where to?")
