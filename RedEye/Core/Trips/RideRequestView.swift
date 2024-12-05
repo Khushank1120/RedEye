@@ -81,13 +81,17 @@ struct RideRequestView: View {
                                 .resizable()
                                 .scaledToFit()
                             
-                            VStack(alignment: .leading, spacing: 2){
+                            VStack(alignment: .leading, spacing: 2) {
                                 Text(type.description)
                                     .font(.system(size: 13, weight: .semibold))
+                                    .frame(maxWidth: .infinity, alignment: .leading)
                                 Text("HUSKY \(locationViewModel.computeRidePrice(forType: type).toCurrency())")
                                     .font(.system(size: 9.5, weight: .semibold))
                             }
-                            .padding()
+                            .padding(.leading)
+                            .padding(.bottom, 10)
+                            // Add padding here if necessary to further ensure visual alignment.
+
                         }
                         .frame(width: 102, height: 140)
                         .foregroundColor(type == selectedRideType ? .white : .black)
@@ -153,4 +157,5 @@ struct RideRequestView: View {
 
 #Preview {
     RideRequestView()
+        .environmentObject(LocationSearchViewModel())
 }
