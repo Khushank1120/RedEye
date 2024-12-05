@@ -25,54 +25,19 @@ struct LoginView: View {
                         .frame(width: 190, height: 190)
                     
                     Text("Northeastern University")
-                        .foregroundColor(Color(.systemGray5))
+                        .foregroundColor(Color(.white))
                         .font(.largeTitle)
                 }
                 
                 // input fields
                 VStack (spacing: 32) {
+                    
                     // input field 1
-                    VStack(alignment: .leading, spacing: 12){
-                        // title
-                        Text("Email Address")
-                            .foregroundColor(.white)
-                            .fontWeight(.semibold)
-                            .font(.footnote)
-                        
-                        // text field
-                        
-                        TextField("Enter Email Address", text: $email)
-                            .foregroundColor(.white)
-                        
-                        // divider
-                        
-                        Rectangle()
-                            .foregroundColor(Color(.init(white: 1, alpha: 0.3)))
-                            .frame(width: UIScreen.main.bounds.width - 32, height: 0.7)
-                        
-                    }
+                    CustomInputField(text: $email, title: "Email Address", placeholder: "name@example.com")
                     
                     // input field 2
-                    
-                    VStack(alignment: .leading, spacing: 12){
-                        // title
-                        Text("Password")
-                            .foregroundColor(.white)
-                            .fontWeight(.semibold)
-                            .font(.footnote)
-                        
-                        // text field
-                        
-                        TextField("Enter Your Password", text: $password)
-                            .foregroundColor(.white)
-                        
-                        // divider
-                        
-                        Rectangle()
-                            .foregroundColor(Color(.init(white: 1, alpha: 0.3)))
-                            .frame(width: UIScreen.main.bounds.width - 32, height: 0.7)
-                        
-                    }
+                    CustomInputField(text: $password, title: "Enter Password", placeholder: "Enter your password", isSecuredField: true)
+
                     
                     Button {
                         
@@ -136,8 +101,8 @@ struct LoginView: View {
                         Image(systemName: "arrow.right")
                             .foregroundColor(.black)
                     }
+                    .frame(width: UIScreen.main.bounds.width - 32, height: 50)
                 }
-                .frame(width: UIScreen.main.bounds.width - 32, height: 50)
                 .background(Color.white)
                 .cornerRadius(11)
 
@@ -146,7 +111,6 @@ struct LoginView: View {
                 Spacer()
                 
                 Button {
-                    
                 } label: {
                     HStack {
                         Text("Don't have an accound ?")
