@@ -9,6 +9,7 @@ import SwiftUI
 
 struct RideRequestView: View {
     @State private var selectedRideType: RideType = .redEye
+    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     var body: some View {
         VStack {
             Capsule()
@@ -83,8 +84,8 @@ struct RideRequestView: View {
                             VStack(alignment: .leading, spacing: 2){
                                 Text(type.description)
                                     .font(.system(size: 13, weight: .semibold))
-                                Text("Husky: 12")
-                                    .font(.system(size: 13, weight: .semibold))
+                                Text("HUSKY \(locationViewModel.computeRidePrice(forType: type).toCurrency())")
+                                    .font(.system(size: 9.5, weight: .semibold))
                             }
                             .padding()
                         }
