@@ -13,6 +13,7 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
     
     let mapView = MKMapView()
     let locationManager = LocationManager()
+    @Binding var mapState: MapViewState
     @EnvironmentObject var locationViewModel: LocationSearchViewModel
     
     func makeUIView(context: Context) -> some UIView {
@@ -25,13 +26,26 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
     }
     
     func updateUIView(_ uiView: UIViewType, context: Context) {
-        if let coordinate = locationViewModel.selectedLocationCoordinate {
-//            print("DEBUG: Selected coordinates \(coordinate)")
-            context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
-            context.coordinator.configurePolyLine(withDestinationCoordinate: coordinate)
+        print("DEBUG: Map State \(mapState)")
+        
+        switch mapState {
+        case .noInput:
+            context.coordinator.clearMapViewAndRecenterOnUserLocation()
+            break
+        case .searchingForLocation:
+            break
+        case .locationSelected:
+            if let coordinate = locationViewModel.selectedLocationCoordinate {
+//              print("DEBUG: Selected coordinates \(coordinate)")
+                context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
+                context.coordinator.configurePolyLine(withDestinationCoordinate: coordinate)
+            }
+            break
         }
-
-    }
+//        if mapState == .noInput {
+//            context.coordinator.clearMapViewAndRecenterOnUserLocation()
+//        }
+}
     
     func makeCoordinator() -> MapCoordinator {
             
@@ -48,6 +62,7 @@ extension RedEyeMapViewRepresentable {
         
         let parent: RedEyeMapViewRepresentable
         var userLocationCoordinate: CLLocationCoordinate2D?
+        var currentRegion: MKCoordinateRegion?
         
         // MARK: - Lifecycle
         
@@ -64,6 +79,7 @@ extension RedEyeMapViewRepresentable {
                 center: CLLocationCoordinate2D(latitude: userLocation.coordinate.latitude, longitude: userLocation.coordinate.longitude),
                 span: MKCoordinateSpan(latitudeDelta: 0.05, longitudeDelta: 0.05)
             )
+            self.currentRegion = region
             
             parent.mapView.setRegion(region, animated: true)
         }
@@ -117,5 +133,13 @@ extension RedEyeMapViewRepresentable {
             
         }
         
+        func clearMapViewAndRecenterOnUserLocation() {
+            parent.mapView.removeAnnotations(parent.mapView.annotations)
+            parent.mapView.removeOverlays(parent.mapView.overlays)
+            
+            if let currentRegion = currentRegion {
+                parent.mapView.setRegion(currentRegion, animated: true)
+            }
+        }
     }
 }
