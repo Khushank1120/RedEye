@@ -8,6 +8,7 @@
 import Foundation
 import FirebaseAuth
 import Firebase
+import FirebaseFirestore
 
 
 class AuthViewModel: ObservableObject {
@@ -35,9 +36,23 @@ class AuthViewModel: ObservableObject {
                 print("DEBUG: Failed to sign up with error \(error.localizedDescription)")
                 return
             }
-            print("DEBUG: Registered user successfully")
-            print("DEBUG: User id \(result?.user.uid)")
-            self.userSession = result?.user
+            guard let firebaseUser = result?.user else { return }
+            self.userSession = firebaseUser
+            
+            let user = User(fullname: fullname, email: email, nuid: nuid, uid: firebaseUser.uid)
+            guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
+            
+            Firestore.firestore().collection("users").document(firebaseUser.uid).setData(encodedUser)
+            
+//            let data: [String: Any] = [ \\ Encoding helps us not to use this
+//                "fullname": fullname,
+//                "email": email,
+//                "nuid": nuid,
+//                "uid": firebaseUser.uid,
+//
+//            ]
+//            print("DEBUG: Registered user successfully")
+//            print("DEBUG: User id \(result?.user.uid)")
         }
     }
     
