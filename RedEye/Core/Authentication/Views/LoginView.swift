@@ -10,6 +10,8 @@ import SwiftUI
 struct LoginView: View {
     @State var email = ""
     @State var password = ""
+    @EnvironmentObject var viewModel: AuthViewModel
+    
     var body: some View {
         NavigationStack {
             ZStack {
@@ -38,7 +40,6 @@ struct LoginView: View {
                         
                         // input field 2
                         CustomInputField(text: $password, title: "Enter Password", placeholder: "Enter your password", isSecuredField: true)
-                        
                         
                         Button {
                             
@@ -77,8 +78,6 @@ struct LoginView: View {
                                 .foregroundColor(Color(.white))
                                 .opacity(0.5)
                         }
-                        
-                        // sign up buttons
                         HStack {
                             Button {
                             } label: {
@@ -95,6 +94,7 @@ struct LoginView: View {
                     
                     // sign in button
                     Button {
+                        viewModel.signIn(withEmail: email, password: password)
                     } label: {
                         HStack {
                             Text("SIGN IN")
