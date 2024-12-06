@@ -117,7 +117,7 @@ struct LoginView: View {
                             .navigationBarBackButtonHidden(true)
                     } label: {
                         HStack {
-                            Text("Don't have an accound ?")
+                            Text("Don't have an account ?")
                                 .font(.system(size: 14))
                                 .opacity(0.8)
                             
