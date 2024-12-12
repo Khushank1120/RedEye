@@ -25,6 +25,7 @@ struct SideMenuView: View {
                             .font(.system(size: 16, weight: .semibold))
                         
                         Text ("TEST@gmail.com")
+                            .font(.system(size: 14))
                             .accentColor(.black)
                             .opacity(0.8)
                     }
