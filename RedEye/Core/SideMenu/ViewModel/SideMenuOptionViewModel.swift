@@ -10,6 +10,7 @@ import Foundation
 enum SideMenuOptionViewModel: Int, CaseIterable, Identifiable {
     case trips
     case wallet
+    case huskycard
     case settings
     case messages
     
@@ -17,6 +18,7 @@ enum SideMenuOptionViewModel: Int, CaseIterable, Identifiable {
         switch self {
         case .trips: return "Trips"
         case .wallet: return "Huskies"
+        case .huskycard: return "Husky Card"
         case .settings: return "Settings"
         case .messages: return "Messages"
         }
@@ -26,6 +28,7 @@ enum SideMenuOptionViewModel: Int, CaseIterable, Identifiable {
         switch self {
         case .trips: return "list.bullet.rectangle"
         case .wallet: return "creditcard"
+        case .huskycard: return "qrcode"
         case .settings: return "gear"
         case .messages: return "bubble.left"
         }

@@ -32,21 +32,21 @@ struct SideMenuView: View {
                 }
                 
                 // become a driver
-                VStack(alignment: .leading, spacing: 16) {
-                    Text("Do more with your account")
-                        .font(.footnote)
-                        .fontWeight(.semibold)
-                    
-                    HStack {
-                        Image(systemName: "dollarsign.square")
-                            .font(.title2)
-                            .imageScale(.medium)
-                        
-                        Text("Make Money While Driving")
-                            .font(.system(size: 16, weight: .semibold))
-                            .padding(6)
-                    }
-                }
+//                VStack(alignment: .leading, spacing: 16) {
+//                    Text("Do more with your account")
+//                        .font(.footnote)
+//                        .fontWeight(.semibold)
+//                    
+//                    HStack {
+//                        Image(systemName: "dollarsign.square")
+//                            .font(.title2)
+//                            .imageScale(.medium)
+//                        
+//                        Text("Make Money While Driving")
+//                            .font(.system(size: 16, weight: .semibold))
+//                            .padding(6)
+//                    }
+//                }
                 
                 Rectangle()
                     .frame(width: 296, height: 1)
