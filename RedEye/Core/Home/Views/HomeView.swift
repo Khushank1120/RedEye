@@ -17,14 +17,19 @@ struct HomeView: View {
         Group {
             if authViewModel.userSession == nil {
                 LoginView()
-            } else {
-                ZStack {
-                    if showSideMenu {
-                        SideMenuView()
+            } else if let user = authViewModel.currentUser {
+                NavigationStack {
+                    ZStack {
+                        if showSideMenu {
+                            SideMenuView(user: user)
+                        }
+                        mapView
+                            .offset(x: showSideMenu ? 300 : 0)
+                            .shadow(color: showSideMenu ? .black : .clear, radius: 10)
                     }
-                    mapView
-                        .offset(x: showSideMenu ? 250 : 0)
-                        .shadow(color: showSideMenu ? .black : .clear, radius: 10)
+                    .onAppear {
+                        showSideMenu = false
+                    }
                 }
             }
         }

@@ -12,6 +12,7 @@ import FirebaseFirestore
 
 class AuthViewModel: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
+    @Published var currentUser: User?
     
     init() {
         userSession = Auth.auth().currentUser
@@ -25,8 +26,8 @@ class AuthViewModel: ObservableObject {
                 return
             }
             self.userSession = result?.user
-//            print("DEBUG: Sign in user successfully")
-//            print("DEBUG: User id \(result?.user.uid)")
+            //            print("DEBUG: Sign in user successfully")
+            //            print("DEBUG: User id \(result?.user.uid)")
         }
     }
     
@@ -44,15 +45,15 @@ class AuthViewModel: ObservableObject {
             
             Firestore.firestore().collection("users").document(firebaseUser.uid).setData(encodedUser)
             
-//            let data: [String: Any] = [ \\ Encoding helps us not to use this
-//                "fullname": fullname,
-//                "email": email,
-//                "nuid": nuid,
-//                "uid": firebaseUser.uid,
-//
-//            ]
-//            print("DEBUG: Registered user successfully")
-//            print("DEBUG: User id \(result?.user.uid)")
+            //            let data: [String: Any] = [ \\ Encoding helps us not to use this
+            //                "fullname": fullname,
+            //                "email": email,
+            //                "nuid": nuid,
+            //                "uid": firebaseUser.uid,
+            //
+            //            ]
+            //            print("DEBUG: Registered user successfully")
+            //            print("DEBUG: User id \(result?.user.uid)")
         }
     }
     
@@ -72,8 +73,9 @@ class AuthViewModel: ObservableObject {
             guard let snapshot = snapshot  else { return }
             
             guard let user = try? snapshot.data(as: User.self) else { return }
+            self.currentUser = user
             
-            print("DEBUG: User is \(user.fullname)")
+            //            print("DEBUG: User is \(user.fullname)")
         }
     }
 }

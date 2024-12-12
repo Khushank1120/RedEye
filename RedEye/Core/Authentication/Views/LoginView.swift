@@ -15,7 +15,7 @@ struct LoginView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                Color(.red)
+                Color(.black)
                     .ignoresSafeArea()
                 
                 VStack {
