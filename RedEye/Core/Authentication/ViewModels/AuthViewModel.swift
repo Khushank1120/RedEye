@@ -26,12 +26,15 @@ class AuthViewModel: ObservableObject {
                 return
             }
             self.userSession = result?.user
+            self.fetchUser()
             //            print("DEBUG: Sign in user successfully")
             //            print("DEBUG: User id \(result?.user.uid)")
         }
     }
     
     func registerUser(withEmail email: String, password: String, fullname: String, nuid: String){
+        guard let location = LocationManager.shared.userLocation else { return }
+
         Auth.auth().createUser(withEmail: email, password: password) { result, error in
             if let error = error {
                 print("DEBUG: Failed to sign up with error \(error.localizedDescription)")
@@ -45,13 +48,14 @@ class AuthViewModel: ObservableObject {
                 email: email,
                 nuid: nuid,
                 uid: firebaseUser.uid,
-                coordinates: GeoPoint(latitude: 37.38, longitude: -122.05),
+                coordinates: GeoPoint(latitude: location.latitude, longitude: location.longitude),
                 accountType: .driver
             )
+            
+            self.currentUser = user // eliminating the unnecessary API call
             guard let encodedUser = try? Firestore.Encoder().encode(user) else { return }
-            
             Firestore.firestore().collection("users").document(firebaseUser.uid).setData(encodedUser)
-            
+                    
             //            let data: [String: Any] = [ \\ Encoding helps us not to use this
             //                "fullname": fullname,
             //                "email": email,

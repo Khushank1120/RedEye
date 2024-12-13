@@ -20,7 +20,7 @@ struct LoginView: View {
                 VStack {
                     // image and title
                     VStack() {
-                        Image("light_mode_icon")
+                        Image("black_icon")
                             .resizable()
                             .frame(width: 190, height: 190)
                         
