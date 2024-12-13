@@ -12,6 +12,8 @@ import FirebaseFirestore
 
 class HomeViewModel: ObservableObject {
     
+    @Published var drivers = [User]()
+    
     init()  {
         fetchDriver()
     }
@@ -21,9 +23,14 @@ class HomeViewModel: ObservableObject {
             .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
             .getDocuments { snapshot, _ in
                 guard let documents = snapshot?.documents else { return }
-                let drivers = documents.map({ try? $0.data(as: User.self)})
+                let drivers = documents.compactMap({ try? $0.data(as: User.self)})
+                self.drivers = drivers
                 
-                print("DEBUG: \(drivers)")
+//                let users = documents.compactMap { doc in
+//                    let user = try? doc.data(as: User.self)
+//                    return user
+//                }
+//                print("DEBUG: \(drivers)")
             }
     }
 }
