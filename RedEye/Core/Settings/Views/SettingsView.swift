@@ -76,7 +76,7 @@ struct SettingsView: View {
 
 #Preview {
     NavigationStack {
-        SettingsView(user: User(fullname: "Khushank", email: "test@test.com", nuid: "002200111", uid: "112233445"))
+        SettingsView(user: DeveloperPreview.shared.mockUser)
     }
 }
 
