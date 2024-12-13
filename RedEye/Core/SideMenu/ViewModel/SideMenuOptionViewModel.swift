@@ -11,16 +11,16 @@ enum SideMenuOptionViewModel: Int, CaseIterable, Identifiable {
     case trips
     case wallet
     case huskycard
-    case settings
     case messages
+    case settings
     
     var title: String {
         switch self {
         case .trips: return "Trips"
         case .wallet: return "Huskies"
         case .huskycard: return "Husky Card"
-        case .settings: return "Settings"
         case .messages: return "Messages"
+        case .settings: return "Settings"
         }
     }
     
@@ -29,8 +29,8 @@ enum SideMenuOptionViewModel: Int, CaseIterable, Identifiable {
         case .trips: return "list.bullet.rectangle"
         case .wallet: return "creditcard"
         case .huskycard: return "qrcode"
-        case .settings: return "gear"
         case .messages: return "bubble.left"
+        case .settings: return "gear"
         }
     }
     

@@ -32,9 +32,9 @@ struct LocationSearchActivationView: View {
     }
 }
 
-#Preview {
-    LocationSearchActivationView()
-}
+//#Preview {
+//    LocationSearchActivationView()
+//}
 
 //import SwiftUI
 //

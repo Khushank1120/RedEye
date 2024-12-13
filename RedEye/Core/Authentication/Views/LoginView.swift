@@ -17,11 +17,8 @@ struct LoginView: View {
             ZStack {
                 Color(.black)
                     .ignoresSafeArea()
-                
                 VStack {
-                    
                     // image and title
-                    
                     VStack() {
                         Image("light_mode_icon")
                             .resizable()
@@ -31,7 +28,6 @@ struct LoginView: View {
                             .foregroundColor(Color(.white))
                             .font(.largeTitle)
                     }
-                    
                     // input fields
                     VStack (spacing: 32) {
                         
@@ -42,7 +38,6 @@ struct LoginView: View {
                         CustomInputField(text: $password, title: "Enter Password", placeholder: "Enter your password", isSecuredField: true)
                         
                         Button {
-                            
                         } label: {
                             Text("Forgot Password?")
                                 .font(.system(size: 13, weight: .semibold))
@@ -57,9 +52,7 @@ struct LoginView: View {
                     
                     
                     // social sign in view
-                    
                     VStack {
-                        
                         // dividers + text
                         HStack(spacing: 24) {
                             Rectangle()
@@ -71,8 +64,6 @@ struct LoginView: View {
                                 .foregroundColor(Color(.white))
                                 .fontWeight(.semibold)
                                 .opacity(0.8)
-                            
-                            
                             Rectangle()
                                 .frame(width: 56, height: 1)
                                 .foregroundColor(Color(.white))

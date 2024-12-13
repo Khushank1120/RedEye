@@ -25,6 +25,6 @@ struct SideMenuOptionView: View {
     }
 }
 
-#Preview {
-    SideMenuOptionView(viewModel: .trips)
-}
+//#Preview {
+//    SideMenuOptionView(viewModel: .trips)
+//}

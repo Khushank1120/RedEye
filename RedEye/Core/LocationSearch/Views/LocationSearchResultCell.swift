@@ -36,7 +36,7 @@ struct LocationSearchResultCell: View {
     }
 }
 
-#Preview {
-    LocationSearchResultCell(title: "Starbucks", subtitle: "123, Main St")
-        .environmentObject(LocationSearchViewModel())
-}
+//#Preview {
+//    LocationSearchResultCell(title: "Starbucks", subtitle: "123, Main St")
+//        .environmentObject(LocationSearchViewModel())
+//}
