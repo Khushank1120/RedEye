@@ -43,7 +43,7 @@ extension HomeView {
                 RedEyeMapViewRepresentable(mapState: $mapState)
                     .ignoresSafeArea()
                 if mapState == .searchingForLocation {
-                    LocationSearchView(mapState: $mapState)
+                    LocationSearchView()
                 } else if mapState == .noInput {
                     LocationSearchActivationView()
                         .padding(.top, 72)
@@ -68,6 +68,11 @@ extension HomeView {
             if let location = location {
                 locationViewModel.userLocation = location
                 //                print("DEBUG: User location in home view is \(location)")
+            }
+        }
+        .onReceive(locationViewModel.$selectedRedEyeLocation) { location in
+            if location != nil {
+                self.mapState = .locationSelected
             }
         }
     }
