@@ -46,21 +46,26 @@ struct SettingsView: View {
                     }
                 }
                 Section("Favourites") {
-                    SavedLocationRowView(imageName: "house.circle.fill", title: "Home", subtitle: "Add Home")
-                    SavedLocationRowView(imageName: "archivebox.circle.fill", title: "Work", subtitle: "Add Work")
-                }
-                
-                Section("Settings") {
-                    SettingsRowView(imageName: "bell.circle.fill", title: "Notifications", tintColor: Color(.systemPurple))
-                    SettingsRowView(imageName: "dollarsign.circle.fill", title: "Husky Points Balance", tintColor: Color(.systemGreen))
-                }
-                
-                Section("Account") {
-                    SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: Color(.systemRed))
-                        .onTapGesture {
-                            viewModel.signout()
-//                            print("DEBUG: Sign Out")
+                    ForEach(SavedLocationViewModel.allCases) { viewModel in
+                        NavigationLink {
+                            Text(viewModel.title)
+                        } label: {
+                            SavedLocationRowView(viewModel: viewModel)
                         }
+                    }
+                }
+            
+            Section("Settings") {
+                SettingsRowView(imageName: "bell.circle.fill", title: "Notifications", tintColor: Color(.systemPurple))
+                SettingsRowView(imageName: "dollarsign.circle.fill", title: "Husky Points Balance", tintColor: Color(.systemGreen))
+            }
+            
+            Section("Account") {
+                SettingsRowView(imageName: "arrow.left.circle.fill", title: "Sign Out", tintColor: Color(.systemRed))
+                    .onTapGesture {
+                        viewModel.signout()
+//                            print("DEBUG: Sign Out")
+                    }
                 }
             }
         }
