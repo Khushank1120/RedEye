@@ -10,6 +10,7 @@ import SwiftUI
 struct SavedLocationSearchView: View {
     @State private var text = ""
     @StateObject var viewModel = LocationSearchViewModel()
+    let config: SavedLocationViewModel
     
     var body: some View {
         VStack {
@@ -21,22 +22,21 @@ struct SavedLocationSearchView: View {
                 
                 TextField("Search for a location..",
                           text: $viewModel.queryFragment)
-                    .frame(height: 32)
-                    .padding(.leading)
-                    .background(Color(.systemGray5))
-                    .cornerRadius(8)
-                    .padding(.horizontal)
+                .frame(height: 32)
+                .padding(.leading)
+                .background(Color(.systemGray5))
+                .cornerRadius(8)
+                .padding(.horizontal)
             }
             .padding(.top)
             Spacer()
-            LocationSearchResultsView(viewModel: viewModel, config: .savedLocation)
+            LocationSearchResultsView(viewModel: viewModel, config: .saveLocation(config))
         }
-        .navigationTitle("Add Home")
+        .navigationTitle(config.subtitle)
     }
 }
-
-#Preview {
-    NavigationStack {
-        SavedLocationSearchView()
-    }
-}
+//#Preview {
+//    NavigationStack {
+//        SavedLocationSearchView()
+//    }
+//}

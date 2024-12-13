@@ -7,10 +7,12 @@
 
 import Foundation
 import MapKit
+import Firebase
+import FirebaseAuth
 
 enum LocationResultsViewConfig {
     case ride
-    case savedLocation
+    case saveLocation(SavedLocationViewModel)
 }
 
 class LocationSearchViewModel: NSObject, ObservableObject{
@@ -44,20 +46,32 @@ class LocationSearchViewModel: NSObject, ObservableObject{
     // Mark: Helpers
     
     func selectLocation(_ localSearch: MKLocalSearchCompletion, config: LocationResultsViewConfig){
-        switch config {
-        case .ride:
-            locationSearch(forLocalSearchCompletion: localSearch) { response, error in
-                if let error = error {
-                    print("DEBUG: Location search failed with error \(error.localizedDescription)")
-                    return
-                }
-                guard let item = response?.mapItems.first else { return }
-                let coordinate = item.placemark.coordinate
-                self.selectedRedEyeLocation = RedEyeLocation(title: localSearch.title, coordinate: coordinate)
-                print("DEBUG: Location coordinates \(coordinate)")
+        locationSearch(forLocalSearchCompletion: localSearch) { response, error in
+            if let error = error {
+                print("DEBUG: Location search failed with error \(error.localizedDescription)")
+                return
             }
-        case .savedLocation:
-            print("DEBUG: Saving location")
+            guard let item = response?.mapItems.first else { return }
+            let coordinate = item.placemark.coordinate
+            
+            
+            switch config {
+            case .ride:
+                self.selectedRedEyeLocation = RedEyeLocation(title: localSearch.title, coordinate: coordinate)
+                
+            case .saveLocation(let viewModel):
+                guard let uid = Auth.auth().currentUser?.uid else { return }
+                let savedLocation = SavedLocation(title: localSearch.title,
+                                                  address: localSearch.subtitle,
+                                                  coordinates: GeoPoint(latitude: coordinate.latitude,
+                                                                        longitude: coordinate.longitude))
+                guard let encodedLocation = try? Firestore.Encoder().encode(savedLocation) else { return }
+                
+                // Differentiate between home and work saved location
+                Firestore.firestore().collection("users").document(uid).updateData([
+                    viewModel.databaseKey: encodedLocation
+                ])
+            }
         }
     }
     
