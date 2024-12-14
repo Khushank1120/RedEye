@@ -8,7 +8,8 @@
 import Foundation
 import CoreLocation
 
-struct RedEyeLocation {
+struct RedEyeLocation: Identifiable {
+    let id = UUID().uuidString
     let title: String
     let coordinate: CLLocationCoordinate2D
 }
