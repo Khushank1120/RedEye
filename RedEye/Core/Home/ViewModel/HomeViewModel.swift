@@ -21,7 +21,8 @@ class HomeViewModel: NSObject, ObservableObject {
     @Published var trip: Trip?
     private let service = UserService.shared
     private var cancellables = Set<AnyCancellable>()
-    private var currentUser: User?
+    var currentUser: User?
+    var routeToPickupLocation: MKRoute?
     
     // Location search properties
     @Published var results = [MKLocalSearchCompletion]()
@@ -142,6 +143,7 @@ extension HomeViewModel {
 extension HomeViewModel {
     func addTripObserverForDriver() {
         guard let currentUser = currentUser, currentUser.accountType == .driver else { return }
+        
         Firestore.firestore().collection("trips")
             .whereField("driverUid", isEqualTo: currentUser.uid)
             .addSnapshotListener { snapshot, _ in
@@ -154,7 +156,8 @@ extension HomeViewModel {
                 
                 self.getDestinationRoute(from: trip.driverLocation.toCoordinate(),
                                          to: trip.pickupLocation.toCoordinate()) { route in
-                    self.trip?.travelTimeToPassenger = Int(route.expectedTravelTime/60)
+                    self.routeToPickupLocation = route
+                    self.trip?.travelTimeToPassenger = Int(route.expectedTravelTime / 60)
                     self.trip?.distanceToPassenger = route.distance
                 }
             }

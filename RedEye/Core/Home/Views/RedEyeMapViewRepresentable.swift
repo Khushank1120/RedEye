@@ -44,6 +44,13 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
             break
         case .polyLineAdded:
             break
+        case .tripAccepted:
+            guard let trip = homeViewModel.trip else { return }
+            guard let driver = homeViewModel.currentUser, driver.accountType == .driver else { return }
+            guard let route = homeViewModel.routeToPickupLocation else { return }
+            
+            context.coordinator.configurePolylineToPickupLocation(withRoute: route)
+            context.coordinator.addAndSelectAnnotation(withCoordinate: trip.pickupLocation.toCoordinate())
         default:
             break
         }
@@ -107,6 +114,13 @@ extension RedEyeMapViewRepresentable {
         
         // MARK: - Helpers
 
+        func configurePolylineToPickupLocation(withRoute route: MKRoute) {
+            self.parent.mapView.addOverlay(route.polyline)
+            let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 400, right: 32))
+            
+            self.parent.mapView.setRegion(MKCoordinateRegion(rect), animated: true)
+        }
+        
         func addAndSelectAnnotation(withCoordinate coordinate: CLLocationCoordinate2D) {
             parent.mapView.removeAnnotations(parent.mapView.annotations)
             
