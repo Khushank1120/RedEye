@@ -32,7 +32,7 @@ struct AcceptTripView: View {
             // Would you like to pickup view
             VStack {
                 HStack {
-                    Text("Would you like to pickup this student ?")
+                    Text("Would you like to pickup this student?")
                         .font(.headline)
                         .fontWeight(.semibold)
                         .lineLimit(2)

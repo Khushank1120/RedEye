@@ -68,13 +68,19 @@ extension HomeView {
                             .transition(.move(edge: .bottom))
                     } else if mapState == .tripAccepted {
                         TripAcceptedView()
-                            .transition(.move(edge: .bottom))                    } else if mapState == .tripRejected {
-                        // show trip rejected view
-                    }
+                            .transition(.move(edge: .bottom))
+                    } else if mapState == .tripRejected {
+                            // show trip rejected view
+                        }
                 } else {
                     if let trip = homeViewModel.trip {
-                        AcceptTripView(trip: trip)
-                            .transition(.move(edge: .bottom))
+                        if mapState == .tripRequested {
+                            AcceptTripView(trip: trip)
+                                .transition(.move(edge: .bottom))
+                        } else if mapState == .tripAccepted {
+                            PickupPassengerView(trip: trip)
+                                .transition(.move(edge: .bottom))
+                        }
                     }
                 }
             }
@@ -108,7 +114,7 @@ extension HomeView {
     }
 }
 
-#Preview {
-    HomeView()
-        .environmentObject(AuthViewModel())
-}
+//#Preview {
+//    HomeView()
+//        .environmentObject(AuthViewModel())
+//}
