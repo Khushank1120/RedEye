@@ -98,7 +98,6 @@ extension HomeViewModel {
                         
             let tripCost = self.computeRidePrice(forType: .redEye)
             let trip = Trip(
-                id: NSUUID().uuidString,
                 passengerUid: currentUser.uid,
                 driverUid: driver.uid,
                 passengerName: currentUser.fullname,
@@ -112,7 +111,8 @@ extension HomeViewModel {
                 dropoffLocation: dropOffGeoPoint,
                 tripCost: tripCost,
                 distanceToPassenger: 0,
-                travelTimeToPassenger: 0
+                travelTimeToPassenger: 0,
+                state: .requested
             )
             guard let encodedTrip = try? Firestore.Encoder().encode(trip) else { return }
             Firestore.firestore().collection("trips").document().setData(encodedTrip) { _ in
@@ -130,7 +130,7 @@ extension HomeViewModel {
         Firestore.firestore().collection("trips")
             .whereField("driverUid", isEqualTo: currentUser.uid)
             .getDocuments { snapshot, _ in
-               guard let documents = snapshot?.documents, let document = documents.first else { return }
+                guard let documents = snapshot?.documents, let document = documents.first else { return }
                 guard let trip = try? document.data(as: Trip.self) else { return }
                 
                 self.trip = trip
@@ -141,6 +141,23 @@ extension HomeViewModel {
                     self.trip?.distanceToPassenger = route.distance
                 }
             }
+    }
+    
+    func rejectTrip() {
+        updateTripState(state: .rejected)
+    }
+    
+    func acceptTrip() {
+        updateTripState(state: .accepted)
+    }
+    
+    private func updateTripState(state: TripState){
+        guard let trip = trip else { return }
+        Firestore.firestore().collection("trips").document(trip.id).updateData([
+            "state": state.rawValue
+        ]) { _ in
+            print("DEBUG: Did update trip \(state)")
+        }
     }
 }
 
