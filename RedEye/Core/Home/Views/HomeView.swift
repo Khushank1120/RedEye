@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var mapState = MapViewState.noInput
     @State private var showSideMenu = false
-//    @EnvironmentObject var locationViewModel: LocationSearchViewModel
+    //    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     
@@ -63,6 +63,13 @@ extension HomeView {
                     if mapState == .locationSelected || mapState == .polyLineAdded {
                         RideRequestView()
                             .transition(.move(edge: .bottom))
+                    } else if mapState == .tripRequested {
+                        TripLoadingView()
+                            .transition(.move(edge: .bottom))
+                    } else if mapState == .tripAccepted {
+                        TripAcceptedView()
+                            .transition(.move(edge: .bottom))                    } else if mapState == .tripRejected {
+                        // show trip rejected view
                     }
                 } else {
                     if let trip = homeViewModel.trip {
@@ -77,7 +84,6 @@ extension HomeView {
             location in
             if let location = location {
                 homeViewModel.userLocation = location
-                //                print("DEBUG: User location in home view is \(location)")
             }
         }
         .onReceive(homeViewModel.$selectedRedEyeLocation) { location in
@@ -87,13 +93,16 @@ extension HomeView {
         }
         .onReceive(homeViewModel.$trip) { trip in
             guard let trip = trip else { return }
-        switch trip.state {
-        case .requested:
-            print("DEBUG: Requested Trip")
-        case .rejected:
-            print("DEBUG: rejected Trip")
-        case .accepted:
-            print("DEBUG: accepted Trip")
+            
+            withAnimation(.spring){
+                switch trip.state {
+                case .requested:
+                    self.mapState = .tripRequested
+                case .rejected:
+                    self.mapState = .tripRejected
+                case .accepted:
+                    self.mapState = .tripAccepted
+                }
             }
         }
     }

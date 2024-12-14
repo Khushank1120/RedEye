@@ -44,6 +44,8 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
             break
         case .polyLineAdded:
             break
+        default:
+            break
         }
 //        if mapState == .noInput {
 //            context.coordinator.clearMapViewAndRecenterOnUserLocation()
