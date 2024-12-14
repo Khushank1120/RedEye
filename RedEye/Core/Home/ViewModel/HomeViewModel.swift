@@ -46,6 +46,8 @@ class HomeViewModel: NSObject, ObservableObject {
         searchCompleter.queryFragment = queryFragment
     }
     
+    // Mark: - User API
+    
     func fetchDrivers() {
         Firestore.firestore().collection("users")
             .whereField("accountType", isEqualTo: AccountType.driver.rawValue)
@@ -62,8 +64,12 @@ class HomeViewModel: NSObject, ObservableObject {
             .sink { user in
                 self.currentUser = user
                 guard let user = user else { return }
-                guard user.accountType == .personal else { return }
-                self.fetchDrivers()
+                
+                if user.accountType == .personal {
+                    self.fetchDrivers()
+                } else {
+                    self.fetchTrips()
+                }
             }
             .store(in: &cancellables)
     }
@@ -114,8 +120,21 @@ extension HomeViewModel {
 
 // Mark: - Driver API
 extension HomeViewModel {
-    
-}
+    func fetchTrips() {
+        guard let currentUser = currentUser else { return }
+        
+        Firestore.firestore().collection("trips")
+            .whereField("driverUid", isEqualTo: currentUser.uid)
+            .getDocuments { snapshot, _ in
+               guard let documents = snapshot?.documents, let document = documents.first else { return }
+                guard let trip = try? document.data(as: Trip.self) else { return }
+                
+                print("DEBUG: Trip request for driver \(trip)")
+               
+            }
+            
+        }
+    }
 
 
 // Mark: - Location Search Helpers
