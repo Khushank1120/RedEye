@@ -10,7 +10,7 @@ import SwiftUI
 struct HomeView: View {
     @State private var mapState = MapViewState.noInput
     @State private var showSideMenu = false
-    @EnvironmentObject var locationViewModel: LocationSearchViewModel
+//    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @EnvironmentObject var authViewModel: AuthViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     
@@ -67,11 +67,11 @@ extension HomeView {
         .onReceive(LocationManager.shared.$userLocation){
             location in
             if let location = location {
-                locationViewModel.userLocation = location
+                homeViewModel.userLocation = location
                 //                print("DEBUG: User location in home view is \(location)")
             }
         }
-        .onReceive(locationViewModel.$selectedRedEyeLocation) { location in
+        .onReceive(homeViewModel.$selectedRedEyeLocation) { location in
             if location != nil {
                 self.mapState = .locationSelected
             }

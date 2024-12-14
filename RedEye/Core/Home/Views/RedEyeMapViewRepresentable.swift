@@ -14,7 +14,7 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
     let mapView = MKMapView()
 //    let locationManager = LocationManager.shared
     @Binding var mapState: MapViewState
-    @EnvironmentObject var locationViewModel: LocationSearchViewModel
+//    @EnvironmentObject var locationViewModel: LocationSearchViewModel
     @EnvironmentObject var homeViewModel: HomeViewModel
     
     func makeUIView(context: Context) -> some UIView {
@@ -36,7 +36,7 @@ struct RedEyeMapViewRepresentable: UIViewRepresentable {
         case .searchingForLocation:
             break
         case .locationSelected:
-            if let coordinate = locationViewModel.selectedRedEyeLocation?.coordinate {
+            if let coordinate = homeViewModel.selectedRedEyeLocation?.coordinate {
 //              print("DEBUG: Selected coordinates \(coordinate)")
                 context.coordinator.addAndSelectAnnotation(withCoordinate: coordinate)
                 context.coordinator.configurePolyLine(withDestinationCoordinate: coordinate)
@@ -117,7 +117,7 @@ extension RedEyeMapViewRepresentable {
         
         func configurePolyLine(withDestinationCoordinate coordinate: CLLocationCoordinate2D){
             guard let userLocationCoordinate = self.userLocationCoordinate else { return }
-            parent.locationViewModel.getDestinationRoute(from: userLocationCoordinate, to: coordinate) { route in
+            parent.homeViewModel.getDestinationRoute(from: userLocationCoordinate, to: coordinate) { route in
                 self.parent.mapView.addOverlay(route.polyline)
                 self.parent.mapState = .polyLineAdded
                 let rect = self.parent.mapView.mapRectThatFits(route.polyline.boundingMapRect, edgePadding: .init(top: 64, left: 32, bottom: 500, right: 32))

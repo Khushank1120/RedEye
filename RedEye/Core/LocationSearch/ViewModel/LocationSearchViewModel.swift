@@ -40,7 +40,6 @@ class LocationSearchViewModel: NSObject, ObservableObject{
         super.init()
         searchCompleter.delegate = self
         searchCompleter.queryFragment = queryFragment
-        
     }
     
     // Mark: Helpers

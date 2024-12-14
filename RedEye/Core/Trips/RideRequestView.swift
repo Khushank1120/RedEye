@@ -9,7 +9,7 @@ import SwiftUI
 
 struct RideRequestView: View {
     @State private var selectedRideType: RideType = .redEye
-    @EnvironmentObject var locationViewModel: LocationSearchViewModel
+    @EnvironmentObject var homeViewModel: HomeViewModel
     var body: some View {
         VStack {
             Capsule()
@@ -41,21 +41,21 @@ struct RideRequestView: View {
                         
                         Spacer()
                         
-                        Text(locationViewModel.pickupTime ?? "")
+                        Text(homeViewModel.pickupTime ?? "")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.gray)
                     }
                     .padding(.bottom, 10)
                     
                     HStack {
-                        if let location = locationViewModel.selectedRedEyeLocation {
+                        if let location = homeViewModel.selectedRedEyeLocation {
                             Text(location.title)
                                 .font(.system(size: 16, weight: .semibold))
                         }
                         
                         Spacer()
                         
-                        Text(locationViewModel.dropOffTime ?? "")
+                        Text(homeViewModel.dropOffTime ?? "")
                             .font(.system(size: 14, weight: .semibold))
                             .foregroundColor(.gray)
                     }
@@ -87,7 +87,7 @@ struct RideRequestView: View {
                                 Text(type.description)
                                     .font(.system(size: 13, weight: .semibold))
                                     .frame(maxWidth: .infinity, alignment: .leading)
-                                Text("HUSKY \(locationViewModel.computeRidePrice(forType: type).toCurrency())")
+                                Text("HUSKY \(homeViewModel.computeRidePrice(forType: type).toCurrency())")
                                     .font(.system(size: 9.5, weight: .semibold))
                             }
                             .padding(.leading)
