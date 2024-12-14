@@ -10,7 +10,26 @@ import SwiftUI
 struct TripLoadingView: View {
     var body: some View {
         VStack{
-            Text("Finding your REDEYE trip")
+            Capsule()
+                .foregroundColor(Color(.systemGray5))
+                .frame(width: 48, height: 6)
+                .padding(.top, 8)
+            HStack {
+                VStack(alignment: .leading, spacing: 12){
+                    Text("Finding your RED EYE")
+                        .font(.headline)
+                    Text("Arriving at 1:30 PM")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundColor(Color(.systemBlue))
+                }
+                .padding()
+                
+                Spacer()
+                Spinner(lineWidth: 6, height: 35, width: 35)
+                    .padding()
+            }
+            .padding(.bottom, 24)
         }
         .background(Color.theme.backgroundColor)
         .cornerRadius(16)
