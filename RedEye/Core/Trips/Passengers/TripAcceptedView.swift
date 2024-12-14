@@ -89,7 +89,7 @@ struct TripAcceptedView: View {
                 }
             }
             Button {
-                print("DEBUG: Cancel trip")
+                viewModel.cancelTripAsDriver()
             } label: {
                 Text("CANCEL TRIP")
                     .fontWeight(.bold)
