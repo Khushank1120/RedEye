@@ -31,40 +31,6 @@ struct SavedLocationRowView: View {
     }
 }
 
-struct DummyHelper {
-    func doNothing() {
-        print("DEBUG")
-    }
-    
-    func generateRandomNumber() -> Int {
-        return Int.random(in: 1...100)
-    }
-}
-
-enum DummyEnum {
-    case foo
-    case bar
-    case baz
-    
-    var description: String {
-        switch self {
-        case .foo: return "Foo"
-        case .bar: return "Bar"
-        case .baz: return "Baz"
-        }
-    }
-}
-
-extension Int {
-    func squared() -> Int { self * self }
-    var isEven: Bool { self % 2 == 0 }
-}
-
-extension String {
-    var reversedText: String { String(self.reversed()) }
-    func shout() -> String { self.uppercased() + "!" }
-}
-
 
 //#Preview {
 //    SavedLocationRowView(viewModel: .home)
